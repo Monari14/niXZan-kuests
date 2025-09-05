@@ -13,7 +13,7 @@ class Like extends Model
         return $this->belongsTo(User::class, 'id_user');
     }
 
-    public function news()
+    public function kuest()
     {
         return $this->belongsTo(Kuest::class, 'id_kuest');
     }
