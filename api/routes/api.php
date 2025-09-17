@@ -20,6 +20,7 @@ Route::prefix('/v1')->group(function () {
     Route::prefix('/kuests')->group(function () {
         Route::get('/', [KuestsController::class, 'index']); //
         Route::get('/{id_kuest}', [KuestsController::class, 'show']); //
+        Route::get('/{id_kuest}/comment', [CommentController::class, 'index']); //
     });
 
     Route::middleware('auth:sanctum')->group(function () {
@@ -32,7 +33,6 @@ Route::prefix('/v1')->group(function () {
             Route::post('/{id_kuest}/unlike', [KuestsController::class, 'unlike']); //
 
             Route::post('/{id_kuest}/comment', [CommentController::class, 'store']); //
-            Route::get('/{id_kuest}/comment', [CommentController::class, 'index']); //
             Route::delete('/{id_comment}/comment', [CommentController::class, 'destroy']); //
 
         });

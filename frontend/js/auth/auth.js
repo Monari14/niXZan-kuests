@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost:8000/api/v1';
-function setTokenAndUser(token, name, username, avatar_url) { 
+function setTokenAndUser(token, id, name, username, avatar_url) { 
     localStorage.setItem('token', token); 
     localStorage.setItem('name_user', name);
     localStorage.setItem('username', username);
@@ -23,7 +23,7 @@ async function login() {
     const data = await res.json();
 
     if (data.token) {
-        setTokenAndUser(data.token, data.user.name, data.user.username, data.user.avatar_url);
+        setTokenAndUser(data.token, data.user.id, data.user.name, data.user.username, data.user.avatar_url);
 
         window.location.href = 'views/painel/index.php';
 
@@ -77,7 +77,7 @@ async function loginAfterRegister(loginValue, password) {
     if (errorDiv) errorDiv.textContent = '';
 
     if (data.token) {
-        setTokenAndUser(data.token, data.user.name, data.user.username, data.user.avatar_url);
+        setTokenAndUser(data.token, data.user.id, data.user.name, data.user.username, data.user.avatar_url);
         window.location.href = 'views/painel/index.php';
     } else {
         if (errorDiv) {

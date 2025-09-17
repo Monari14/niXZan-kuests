@@ -1,4 +1,4 @@
-<a class="profileLink" href="user/">
+<a class="profileLink" href="">
     <div class="containerUser">
         <img id="avatar" alt="Avatar do usuário">
         <p><span id="name"></span></p>

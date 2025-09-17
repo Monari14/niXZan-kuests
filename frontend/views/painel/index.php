@@ -35,9 +35,6 @@
       <div class="meio">
         <?php include 'partials/meio.php';?>
       </div>
-      <div class="direita">
-        <?php include 'partials/direita.php'; ?>
-      </div>
     </div>
   </main>
   <?php include 'footer.php';?>

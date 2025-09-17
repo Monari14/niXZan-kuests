@@ -1,2 +1,0 @@
-<h2>Produtos</h2>
-<ul id="produtos"></ul>

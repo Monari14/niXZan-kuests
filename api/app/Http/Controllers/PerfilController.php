@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Kuest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\PerfilResource;
+use App\Http\Resources\KuestsResource;
 
 class PerfilController extends Controller {
     public function index(Request $request, $username)
@@ -22,7 +24,7 @@ class PerfilController extends Controller {
 
         return response()->json([
             'status' => 'success',
-            'data'   => new PerfilResource($user)
+            'data'   => new PerfilResource($user),
         ], 200);
     }
     public function me(Request $request)

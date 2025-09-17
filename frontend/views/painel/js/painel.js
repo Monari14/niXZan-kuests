@@ -16,8 +16,10 @@ function user(){
     document.getElementById('username').textContent = username ?? "Não definido";
     document.getElementById('avatar').src = avatar_url ?? "";
     
+    const profileLink = `../user/user.php?u=${username}`;
     if (username) {
-      document.getElementById('profileLink').href = `user/${username}`;
+        const link = document.querySelector('.profileLink');
+        if (link) link.href = profileLink;
     }
 }
 
@@ -91,25 +93,30 @@ async function getKuests(page = 1) {
             div.className = "kuest-item";
 
             const username = kuest.username || 'anonimo';
-            const profileLink = `user/${username}`;
+            const profileLink = `../user/user.php?u=${username}`;
 
             div.innerHTML = `
-              <div class="containerUserKuest">
-                  <img src="${kuest.avatar || 'default-avatar.png'}" alt="Avatar" class="kuest-avatar" />
-                  <div class="kuest-content">
-                      <h3>${kuest.title || 'Sem título'}</h3>
-                      <p>${kuest.description || ''}</p>
-                      <a class="profileLink" href="${profileLink}">
+            <div class="containerUserKuest">
+                <img src="${kuest.avatar || 'default-avatar.png'}" alt="Avatar" class="kuest-avatar" />
+                <div class="kuest-content">
+                    <h3>${kuest.title || 'Sem título'}</h3>
+                    <p>${kuest.description || ''}</p>
+                    <a class="profileLink" href="${profileLink}">
                         <small>@${username}</small>
-                      </a>
-                      <small>${kuest.created_at_human || ''}</small>
-                  </div>
-              </div>
+                    </a>
+                    <small>${kuest.created_at_human || ''}</small>
+                </div>
+            </div>
             `;
+
+            // Evento de clique para comentar
+            div.addEventListener("click", () => {
+                openComments(kuest.id);
+            });
+
             listDiv.appendChild(div);
         });
 
-        // Paginação
         const paginationExists = data.links && (data.links.prev || data.links.next);
         if (paginationExists) {
             const pagination = document.createElement("div");
@@ -139,6 +146,92 @@ async function getKuests(page = 1) {
     }
 }
 
+async function openComments(kuestId) {
+    const modal = document.getElementById("comments-modal");
+    const commentsList = document.getElementById("comments-list");
+    const textarea = document.getElementById("new-comment");
+    const sendBtn = document.getElementById("send-comment");
+
+    modal.style.display = "flex";
+    commentsList.innerHTML = "Carregando...";
+    textarea.value = "";
+
+try {
+    const res = await fetch(`${API_URL}/kuests/${kuestId}/comment`, {
+        headers: { "Content-Type": "application/json" }
+    });
+    const result = await res.json();
+
+    console.log("GET /comments result:", result); // <- adicione esta linha
+
+    if (!res.ok || result.status === "error") {
+        throw new Error(result.message || "Erro ao carregar comentários");
+    }
+
+    const comments = result.data;
+    commentsList.innerHTML = comments.length === 0 ? "Nenhum comentário ainda." : "";
+    comments.forEach(c => {
+        const div = document.createElement("div");
+        div.className = "comment-item";
+        div.innerHTML = `
+            <p><strong>@${c.user.username}</strong>: ${c.content}</p>
+        `;
+        commentsList.appendChild(div);
+    });
+
+} catch (err) {
+    console.error("Erro ao carregar comentários:", err);
+    commentsList.innerHTML = "Erro ao carregar comentários.";
+}
+
+    sendBtn.onclick = async () => {
+        const comment = textarea.value.trim();
+        if (!comment) return;
+
+        try {
+            const res = await fetch(`${API_URL}/kuests/${kuestId}/comment`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({ content: comment }) // ⚠️ mudar para content
+            });
+
+            const data = await res.json();
+            if (!res.ok || data.status === "error") throw new Error(data.message);
+
+            textarea.value = "";
+            openComments(kuestId); // Recarrega comentários
+        } catch (err) {
+            console.error(err);
+            alert("Erro ao enviar comentário: " + err.message);
+        }
+    };
+
+    document.getElementById("close-modal").onclick = () => {
+        modal.style.display = "none";
+    };
+}
+
+async function deleteComment(commentId, kuestId) {
+    if (!confirm("Tem certeza que deseja excluir este comentário?")) return;
+
+    try {
+        const res = await fetch(`${API_URL}/kuests/${commentId}/comment`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!res.ok) throw new Error("Erro ao excluir comentário");
+        openComments(kuestId); // Recarrega comentários
+    } catch (err) {
+        console.error(err);
+        alert("Erro ao excluir comentário!");
+    }
+}
 
 document.addEventListener("DOMContentLoaded", () => getKuests());
 window.onload = user;
