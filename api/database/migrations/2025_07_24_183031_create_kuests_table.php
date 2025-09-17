@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('kuests', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained()->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->text('title')->nullable();
             $table->text('description')->nullable();
             $table->timestamps();

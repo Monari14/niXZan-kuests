@@ -40,6 +40,7 @@ class AuthController extends Controller
                 'id'       => $user->id,
                 'name'     => $user->name,
                 'username' => $user->username,
+                'avatar_url'   => $user->avatar_url,
             ],
             'token' => $token,
         ], 201);
@@ -77,6 +78,7 @@ class AuthController extends Controller
                 'id'       => $user->id,
                 'name'     => $user->name,
                 'username' => $user->username,
+                'avatar_url'   => $user->avatar_url,
             ],
             'token' => $token,
         ], 200);

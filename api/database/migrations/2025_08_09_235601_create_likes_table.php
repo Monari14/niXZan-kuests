@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('likes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->constrained()->onDelete('cascade');
-            $table->foreignId('id_kuest')->constrained()->onDelete('cascade');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->foreignId('id_kuest')->constrained('kuests')->onDelete('cascade');
             $table->timestamps();
 
             $table->unique(['id_user', 'id_kuest']);

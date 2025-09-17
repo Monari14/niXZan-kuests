@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('user_settings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_user')->unique()->constrained()->onDelete('cascade');
+            $table->foreignId('id_user')->unique()->constrained('users')->onDelete('cascade');
             $table->string('theme')->default('light'); // light ou dark
             $table->string('language')->default('pt'); // pt, en, es, etc
             $table->timestamps();
