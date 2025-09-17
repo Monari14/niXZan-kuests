@@ -76,6 +76,33 @@ body {
   align-items: center;
 }
 
+.navbar-links li a {
+  color: var(--text-main);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.05rem;
+  padding: 0.45rem 0rem;
+  border-radius: 8px;
+  position: relative;
+  transition: all var(--transition);
+}
+.navbar-links li a::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: var(--accent);
+  transition: width var(--transition);
+}
+.navbar-links li a:hover {
+  color: var(--accent);
+}
+.navbar-links li a:hover::after {
+  width: 100%;
+}
+
 .navbar-links button.logout-btn {
   background: transparent;
   color: var(--text-muted);
@@ -366,8 +393,8 @@ details ul li {
   }
 }
 @media (max-width: 768px) {
-  #kuest {
-    max-width: 100%;
+  #kuest, #login, #register {
+    max-width: 90%;
   }
 }
 @media (max-width: 480px) {

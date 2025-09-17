@@ -37,13 +37,11 @@ async function getUserData(username) {
     };
 
   } catch (error) {
-    console.error(error);
     alert("Erro ao carregar dados do usuário");
     return null;
   }
 }
 
-// Carrega o usuário e kuests na página
 async function loadUser() {
   const username = getUsernameFromURL();
   if (!username) {
@@ -77,7 +75,6 @@ async function loadUser() {
         <p><small>@${k.username} | ${k.created_at_human} </small></p>
       `;
 
-      // Adiciona clique para abrir modal de comentários
       kuestDiv.addEventListener('click', () => openComments(k.id));
 
       kuestsList.appendChild(kuestDiv);
@@ -85,7 +82,6 @@ async function loadUser() {
   }
 }
 
-// Modal de comentários
 async function openComments(kuestId) {
   const modal = document.getElementById("comments-modal");
   const commentsList = document.getElementById("comments-list");
@@ -123,7 +119,6 @@ async function openComments(kuestId) {
     });
 
   } catch (err) {
-    console.error("Erro ao carregar comentários:", err);
     commentsList.innerHTML = "Erro ao carregar comentários.";
   }
 
@@ -145,9 +140,8 @@ async function openComments(kuestId) {
       if (!res.ok || data.status === "error") throw new Error(data.message);
 
       textarea.value = "";
-      openComments(kuestId); // Recarrega comentários
+      openComments(kuestId);
     } catch (err) {
-      console.error(err);
       alert("Erro ao enviar comentário: " + err.message);
     }
   };
@@ -157,7 +151,6 @@ async function openComments(kuestId) {
   };
 }
 
-// Deletar comentário
 async function deleteComment(commentId, kuestId) {
   if (!confirm("Tem certeza que deseja excluir este comentário?")) return;
 
@@ -173,9 +166,8 @@ async function deleteComment(commentId, kuestId) {
     const data = await res.json();
     if (!res.ok || data.status === "error") throw new Error(data.message);
 
-    openComments(kuestId); // Recarrega comentários
+    openComments(kuestId);
   } catch (err) {
-    console.error(err);
     alert("Erro ao excluir comentário: " + err.message);
   }
 }

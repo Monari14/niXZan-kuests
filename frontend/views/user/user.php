@@ -11,7 +11,7 @@
     <nav class="navbar">
       <div class="navbar-logo">
         <a href="../painel/index.php">
-          <img src="../../i/logo.png" alt="Logo"> kopa
+          <img src="../../i/logo.png" alt="Logo"> Kuests
         </a>
       </div>
       <div class="navbar-actions">
@@ -52,6 +52,13 @@
   </main>
 
   <script>
+    function logout() {
+      localStorage.removeItem('token');
+      localStorage.removeItem('name_user');
+      localStorage.removeItem('username');
+      localStorage.removeItem('avatar_url');
+      window.location.href = '../../index.php';
+    }
     const menuToggle = document.getElementById("menuToggle");
     const navbarLinks = document.querySelector(".navbar-links");
 

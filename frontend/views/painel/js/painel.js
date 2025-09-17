@@ -3,7 +3,9 @@ const API_URL = 'http://localhost:8000/api/v1';
 
 function logout() {
     localStorage.removeItem('token');
-    localStorage.removeItem('user');
+    localStorage.removeItem('name_user');
+    localStorage.removeItem('username');
+    localStorage.removeItem('avatar_url');
     window.location.href = '../../index.php';
 }
 
@@ -58,7 +60,6 @@ async function kuest() {
             errorDiv.textContent = data.message || "Erro ao fazer kuest!";
         }
     } catch (err) {
-        console.error(err);
         errorDiv.textContent = "Não foi possível conectar ao servidor!";
     }
 }
@@ -141,7 +142,6 @@ async function getKuests(page = 1) {
         }
 
     } catch (err) {
-        console.error("Erro ao buscar kuests:", err);
         listDiv.innerHTML = "Não foi possível carregar as kuests!";
     }
 }
@@ -162,7 +162,6 @@ try {
     });
     const result = await res.json();
 
-    console.log("GET /comments result:", result); // <- adicione esta linha
 
     if (!res.ok || result.status === "error") {
         throw new Error(result.message || "Erro ao carregar comentários");
@@ -180,7 +179,6 @@ try {
     });
 
 } catch (err) {
-    console.error("Erro ao carregar comentários:", err);
     commentsList.innerHTML = "Erro ao carregar comentários.";
 }
 
@@ -204,7 +202,6 @@ try {
             textarea.value = "";
             openComments(kuestId); // Recarrega comentários
         } catch (err) {
-            console.error(err);
             alert("Erro ao enviar comentário: " + err.message);
         }
     };
@@ -228,7 +225,6 @@ async function deleteComment(commentId, kuestId) {
         if (!res.ok) throw new Error("Erro ao excluir comentário");
         openComments(kuestId); // Recarrega comentários
     } catch (err) {
-        console.error(err);
         alert("Erro ao excluir comentário!");
     }
 }

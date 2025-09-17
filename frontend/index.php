@@ -11,7 +11,7 @@
       <nav class="navbar">
         <div class="navbar-logo">
           <a href="index.php">
-              <img src="i/logo.png" alt="Logo"> kopa
+              <img src="i/logo.png" alt="Logo"> Kuests
           </a>
         </div>
       <div class="navbar-actions">
