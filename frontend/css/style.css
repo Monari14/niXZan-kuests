@@ -9,6 +9,7 @@
   --danger: #cf6679;
   --danger-hover: #b00020;
   --text-main: #e5e5e5;
+  --border-kuest: #26263a;
   --text-muted: #b3b3b3;
   --text-accent: #bb86fc;
   --shadow: 0 2px 16px rgba(0,0,0,0.7);
@@ -193,7 +194,8 @@ h1 {
 /* KUEST ITEM */
 .kuest-item {
   padding: 20px;
-  border: 1px solid var(--text-main);
+  border: 1px solid var(--border-kuest);
+  background-color: #242431;
   margin-bottom: 1rem;
   border-radius: 8px;
   overflow: hidden;
