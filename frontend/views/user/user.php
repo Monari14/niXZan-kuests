@@ -50,7 +50,7 @@
       </div>
     </section>
   </main>
-
+  <?php include 'footer.php';?>
   <script>
     function logout() {
       localStorage.removeItem('token');
